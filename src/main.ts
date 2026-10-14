@@ -2,7 +2,7 @@
 // even this tiny example demonstrates a separately deployed asset.
 // @deno-types="./asset-url.d.ts"
 import tileUrl from "./assets/tile.svg?no-inline";
-import { GameState, purchaseUpgrade, upgrades } from "./upgrades.ts";
+import { GameState } from "./upgrades.ts";
 import { renderShop } from "./shop.ts";
 
 const app = document.querySelector<HTMLElement>("#app")!;
@@ -24,7 +24,7 @@ const clickValue = document.createElement("div");
 function updateDisplay() {
   counterDisplay.textContent = `Count: ${Math.floor(game.money)}`;
   clickRate.textContent = `${game.moneyPerSecond} /sec`;
-  clickValue.textContent = `${game.moneyPerClick} /click;`
+  clickValue.textContent = `${game.moneyPerClick} /click`;
 }
 updateDisplay();
 
@@ -44,15 +44,15 @@ const shopContainer = document.createElement("div");
 shopContainer.id = "shop";
 app.appendChild(shopContainer);
 
-renderShop (shopContainer, game, () => {
+renderShop(shopContainer, game, () => {
   updateDisplay();
 });
 
-let lastTime = preformance.now();
+let lastTime = performance.now();
 function gameLoop(currentTime: number) {
   const delta = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
-  
+
   if (game.moneyPerSecond > 0) {
     game.money += game.moneyPerSecond * delta;
     updateDisplay();
