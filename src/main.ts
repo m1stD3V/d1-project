@@ -1,7 +1,7 @@
 // Vite turns this import into a production-safe URL. Keep it as a file so
 // even this tiny example demonstrates a separately deployed asset.
 // @deno-types="./asset-url.d.ts"
-import tileUrl from "./assets/tile.svg?no-inline";
+import tileUrl from "./assets/noteButton.png?no-inline";
 import { canAffordUpgrade, GameState, upgrades } from "./upgrades.ts";
 import { renderShop } from "./shop.ts";
 
@@ -31,9 +31,10 @@ updateDisplay();
 
 const button = document.createElement("button");
 button.type = "button";
+
 const tile = document.createElement("img");
 tile.src = tileUrl;
-tile.alt = "A teal tile with a cream circle";
+tile.alt = "A black musical Note button";
 tile.width = 96;
 tile.height = 96;
 button.appendChild(tile);
@@ -46,8 +47,9 @@ button.addEventListener("click", () => {
 });
 
 const shopContainer = document.createElement("div");
+shopContainer.style.display = "flex";
+shopContainer.style.justifyContent = "flex-end";
 shopContainer.id = "shop";
-app.appendChild(shopContainer);
 
 renderShop(shopContainer, game, () => {
   updateDisplay();
@@ -79,3 +81,4 @@ function gameLoop(currentTime: number) {
 requestAnimationFrame(gameLoop);
 
 app.append(heading, counterDisplay, clickRate, clickValue, button, message);
+app.appendChild(shopContainer); // AppendChild below button and informatics, cahnged because of format
