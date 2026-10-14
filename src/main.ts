@@ -2,7 +2,7 @@
 // even this tiny example demonstrates a separately deployed asset.
 // @deno-types="./asset-url.d.ts"
 import tileUrl from "./assets/tile.svg?no-inline";
-import { GameState } from "./upgrades.ts";
+import { canAffordUpgrade, GameState, upgrades } from "./upgrades.ts";
 import { renderShop } from "./shop.ts";
 
 const app = document.querySelector<HTMLElement>("#app")!;
@@ -29,16 +29,20 @@ function updateDisplay() {
 }
 updateDisplay();
 
-const button = document.createElement("img"); //Button ellemnt creation
-button.src = tileUrl;
-button.alt = "A teal tile with a cream circle";
-button.width = 96;
-button.height = 96;
+const button = document.createElement("button");
+button.type = "button";
+const tile = document.createElement("img");
+tile.src = tileUrl;
+tile.alt = "A teal tile with a cream circle";
+tile.width = 96;
+tile.height = 96;
+button.appendChild(tile);
 
 const message = document.createElement("p");
 button.addEventListener("click", () => {
   game.money += game.moneyPerClick;
-  updateDisplay;
+  updateDisplay();
+  renderShop(shopContainer, game, updateDisplay);
 });
 
 const shopContainer = document.createElement("div");
@@ -62,9 +66,13 @@ function gameLoop(currentTime: number) {
     game.money += game.moneyPerSecond * delta;
     updateDisplay();
 
-    renderShop(shopContainer, game, () => {
-      updateDisplay();
-    });
+    const purchaseButtons = shopContainer.querySelectorAll("button");
+    const affordabilityChanged = upgrades.some((upgrade, index) =>
+      !purchaseButtons[index].disabled !== canAffordUpgrade(upgrade, game.money)
+    );
+    if (affordabilityChanged) {
+      renderShop(shopContainer, game, updateDisplay);
+    }
   }
   requestAnimationFrame(gameLoop);
 }
