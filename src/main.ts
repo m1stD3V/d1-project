@@ -6,15 +6,32 @@ import tileUrl from "./assets/tile.svg?no-inline";
 const app = document.querySelector<HTMLElement>("#app")!;
 
 const heading = document.createElement("h1");
-heading.textContent = "D1 project";
+heading.textContent = "The Studio";
 
-const image = document.createElement("img");
-image.src = tileUrl;
-image.alt = "A teal tile with a cream circle";
-image.width = 96;
-image.height = 96;
+let counter: number = 0;
+const rate: number = 0; // change to regular variable when used
+const click = 1; // Change to regular variable when used
+
+const counterDisplay = document.createElement("div");
+counterDisplay.textContent = `${counter}`;
+
+const clickRate = document.createElement("div");
+clickRate.textContent = `${rate} /sec`;
+
+const clickValue = document.createElement("div");
+clickValue.textContent = `${click} /click`;
+
+const button = document.createElement("img"); //Button ellemnt creation
+button.src = tileUrl;
+button.alt = "A teal tile with a cream circle";
+button.width = 96;
+button.height = 96;
 
 const message = document.createElement("p");
-message.textContent = "Your project starts here.";
+button.addEventListener("click", () => {
+  counter++;
+  counterDisplay.textContent = `Count: ${counter}`;
+  console.log(counter);
+});
 
-app.append(heading, image, message);
+app.append(heading, counterDisplay, clickRate, clickValue, button, message);
