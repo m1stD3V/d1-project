@@ -2,24 +2,31 @@
 // even this tiny example demonstrates a separately deployed asset.
 // @deno-types="./asset-url.d.ts"
 import tileUrl from "./assets/tile.svg?no-inline";
+import { GameState, purchaseUpgrade, upgrades } from "./upgrades.ts";
+import { renderShop } from "./shop.ts";
 
 const app = document.querySelector<HTMLElement>("#app")!;
 
 const heading = document.createElement("h1");
 heading.textContent = "The Studio";
 
-let counter: number = 0;
-const rate: number = 0; // change to regular variable when used
-const click = 1; // Change to regular variable when used
+const game: GameState = {
+  money: 0,
+  moneyPerClick: 1,
+  moneyPerSecond: 0,
+};
 
+// UI elements
 const counterDisplay = document.createElement("div");
-counterDisplay.textContent = `${counter}`;
-
 const clickRate = document.createElement("div");
-clickRate.textContent = `${rate} /sec`;
-
 const clickValue = document.createElement("div");
-clickValue.textContent = `${click} /click`;
+
+function updateDisplay() {
+  counterDisplay.textContent = `Count: ${Math.floor(game.money)}`;
+  clickRate.textContent = `${game.moneyPerSecond} /sec`;
+  clickValue.textContent = `${game.moneyPerClick} /click;`
+}
+updateDisplay();
 
 const button = document.createElement("img"); //Button ellemnt creation
 button.src = tileUrl;
@@ -29,9 +36,33 @@ button.height = 96;
 
 const message = document.createElement("p");
 button.addEventListener("click", () => {
-  counter++;
-  counterDisplay.textContent = `Count: ${counter}`;
-  console.log(counter);
+  game.money += game.moneyPerClick;
+  updateDisplay;
 });
+
+const shopContainer = document.createElement("div");
+shopContainer.id = "shop";
+app.appendChild(shopContainer);
+
+renderShop (shopContainer, game, () => {
+  updateDisplay();
+});
+
+let lastTime = preformance.now();
+function gameLoop(currentTime: number) {
+  const delta = (currentTime - lastTime) / 1000;
+  lastTime = currentTime;
+  
+  if (game.moneyPerSecond > 0) {
+    game.money += game.moneyPerSecond * delta;
+    updateDisplay();
+
+    renderShop(shopContainer, game, () => {
+      updateDisplay();
+    });
+  }
+  requestAnimationFrame(gameLoop);
+}
+requestAnimationFrame(gameLoop);
 
 app.append(heading, counterDisplay, clickRate, clickValue, button, message);
