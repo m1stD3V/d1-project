@@ -6,7 +6,11 @@ import {
 } from "./upgrades.ts";
 import type { GameState } from "./upgrades.ts";
 
-export function renderShop(container: HTMLElement, game: GameState): void {
+export function renderShop(
+  container: HTMLElement,
+  game: GameState,
+  onPurchase: () => void,
+): void {
   container.replaceChildren();
   upgrades.forEach((upgrade) => {
     const card = document.createElement("div");
@@ -26,7 +30,8 @@ export function renderShop(container: HTMLElement, game: GameState): void {
     button.disabled = !canAffordUpgrade(upgrade, game.money);
     button.addEventListener("click", () => {
       if (purchaseUpgrade(upgrade, game)) {
-        renderShop(container, game);
+        onPurchase();
+        renderShop(container, game, onPurchase);
       }
     });
     card.appendChild(button);
