@@ -15,7 +15,7 @@ export type Upgrade = {
   effectType: "click" | "passive";
 };
 
-export const Upgrades: Upgrade[] = [
+export const upgrades: Upgrade[] = [
   {
     id: "midi-keyboard",
     name: "MIDI Keyboard",
