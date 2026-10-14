@@ -21,6 +21,7 @@ const counterDisplay = document.createElement("div");
 const clickRate = document.createElement("div");
 const clickValue = document.createElement("div");
 
+/** Updates the displayed money balance and earning rates from the game state. */
 function updateDisplay() {
   counterDisplay.textContent = `Count: ${Math.floor(game.money)}`;
   clickRate.textContent = `${game.moneyPerSecond} /sec`;
@@ -49,6 +50,10 @@ renderShop(shopContainer, game, () => {
 });
 
 let lastTime = performance.now();
+/**
+ * Accrues passive income, refreshes the UI, and schedules the next frame.
+ * @param currentTime - Animation frame timestamp in milliseconds.
+ */
 function gameLoop(currentTime: number) {
   const delta = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
