@@ -25,8 +25,15 @@ body {
 
 .game-title {
   margin-top: 0;
-  font-size: 2rem;
-  color: #8b5cf6;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+  color: #4f5569;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  align-self: left;
+  border-bottom: 2px solid #242731;
+  padding-bottom: 0.5rem;
+  align-self: flex-start;
 }
 
 .stats-panel {
@@ -35,8 +42,9 @@ body {
   gap: 0.5rem;
   background: #242731;
   padding: 1rem;
-  border-radius: 10px;
   margin-bottom: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #2d3139;
 }
 
 .money-counter {
@@ -82,8 +90,11 @@ body {
 .shop-wrapper h2 {
   margin-top: 0;
   font-size: 1.5rem;
-  border-bottom: 2px solid #2d3139;
+  border-bottom: 2px solid #242731;
   padding-bottom: 0.5rem;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  color: #4f5569;
 }
 
 .shop-grid {
@@ -93,6 +104,8 @@ body {
   max-height: 400px;
   overflow-y: auto;
   padding-right: 0.5rem;
+  scrollbar-width: thin;
+  scrollbar-color: #8b5cf6 #1a1c23;
 }
 
 .upgrade-card {
@@ -100,7 +113,7 @@ body {
   justify-content: space-between;
   align-items: center;
   background: #242731;
-  padding: 0.75rem 1rem;
+  padding: 1rem;
   border-radius: 8px;
   border: 1px solid #2d3139;
 }
@@ -108,18 +121,26 @@ body {
 .upgrade-info h3 {
   margin: 0 0 0.25rem 0;
   font-size: 1rem;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+  color: #8b5cf6;
 }
 
-.upgrade-description {
+.upgrade-desc {
   margin: 0 0 0.5rem 0;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: #9ca3af;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-style: italic;
 }
 
 .upgrade-meta {
   display: flex;
   gap: 1rem;
   font-size: 0.85rem;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
 }
 
 .upgrade-cost {
@@ -131,7 +152,7 @@ body {
   color: #9ca3af;
 }
 
-.but-btn {
+.buy-btn {
   background: #10b981;
   color: white;
   border: none;
@@ -166,4 +187,44 @@ body {
 .reset-btn:hover {
   background: #ef4444;
   color: white;
+}
+
+.left-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.controls-panel {
+  margin-top: auto;
+  display: flex;
+  justify-content: flex-start;
+  padding-top: 20px;
+}
+
+.upgrade-title {
+  display: flex;
+  align-items: center;
+  gap: 0px;
+  margin-bottom: 5px;
+  margin-top: -5px;
+}
+
+.upgrade-title h3,
+.upgrade-icon {
+  margin: 5px;
+}
+
+.upgrade-icon {
+  font-size: 1.5rem;
+  margin-left: 0;
+  margin-bottom: 9px;
+}
+
+.upgrade-effect {
+  font-size: 13px;
+  color: #9ca3af;
+  font-family: 'Arial', sans-serif;
+  font-weight: bold;
+  font-style: italic;
 }

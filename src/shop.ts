@@ -19,12 +19,35 @@ export function renderShop(
     const infoDiv = document.createElement("div");
     infoDiv.className = "upgrade-info";
 
+    const titleDiv = document.createElement("div");
+    titleDiv.className = "upgrade-title";
+
     const title = document.createElement("h3");
     title.textContent = upgrade.name;
+
+    const icon = document.createElement("p");
+    icon.className = "upgrade-icon";
+    icon.textContent = upgrade.icon;
+
+    titleDiv.append(icon);
+    titleDiv.append(title);
 
     const description = document.createElement("p");
     description.className = "upgrade-desc";
     description.textContent = upgrade.description;
+
+    const effect = document.createElement("p");
+    effect.className = "upgrade-effect";
+    if (upgrade.effectType === "click") {
+      effect.className += " upgrade-effect-click";
+    } else if (upgrade.effectType === "passive") {
+      effect.className += " upgrade-effect-passive";
+    }
+    effect.textContent = `${
+      upgrade.effectType === "click" ? "🖱️" : "⏱️"
+    } +$${upgrade.effectValue} ${
+      upgrade.effectType === "click" ? "/click" : "/second"
+    }`;
 
     const meta = document.createElement("div");
     meta.className = "upgrade-meta";
@@ -37,10 +60,14 @@ export function renderShop(
     owned.textContent = `Owned: ${upgrade.owned}`;
 
     meta.append(cost, owned);
-    infoDiv.append(title, description, meta);
+    infoDiv.append(titleDiv, description, effect, meta);
 
     const button = document.createElement("button");
-    button.textContent = "Buy";
+    if (canAffordUpgrade(upgrade, game.money)) {
+      button.textContent = "Buy";
+    } else {
+      button.textContent = "Locked";
+    }
     button.className = "buy-btn";
     button.disabled = !canAffordUpgrade(upgrade, game.money);
     button.addEventListener("click", () => {
@@ -64,6 +91,11 @@ export function updateShopDisplay(
     const upgrade = upgrades[index];
 
     const button = card.querySelector(".buy-btn") as HTMLButtonElement;
+    if (canAffordUpgrade(upgrade, game.money)) {
+      button.textContent = "Buy";
+    } else {
+      button.textContent = "Locked";
+    }
     if (button) {
       button.disabled = !canAffordUpgrade(upgrade, game.money);
     }
