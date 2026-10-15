@@ -31,12 +31,29 @@ export function renderShop(
     button.addEventListener("click", () => {
       if (purchaseUpgrade(upgrade, game)) {
         onPurchase();
-        renderShop(container, game, onPurchase);
+        updateShopDisplay(container, game);
       }
     });
     card.appendChild(button);
     const owned = document.createElement("p");
     owned.textContent = `Owned: ${upgrade.owned}`;
     card.appendChild(owned);
+  });
+}
+export function updateShopDisplay(
+  container: HTMLElement,
+  game: GameState,
+): void {
+  const cards = container.querySelectorAll(".upgrade-card");
+  cards.forEach((card, index) => {
+    const upgrade = upgrades[index];
+    const button = card.querySelector("button") as HTMLButtonElement;
+    button.disabled = !canAffordUpgrade(upgrade, game.money);
+    const cost = card.querySelector("p:nth-of-type(2)") as HTMLParagraphElement;
+    cost.textContent = `Cost: $${getUpgradeCost(upgrade)}`;
+    const owned = card.querySelector(
+      "p:nth-of-type(3)",
+    ) as HTMLParagraphElement;
+    owned.textContent = `Owned: ${upgrade.owned}`;
   });
 }
