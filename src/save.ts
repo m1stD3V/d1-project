@@ -37,3 +37,8 @@ export function loadUpgrades(): Upgrade[] | null {
   }
   return null;
 }
+
+export function clearGameData(): void {
+  localStorage.removeItem("gameState");
+  localStorage.removeItem("upgrades");
+}
