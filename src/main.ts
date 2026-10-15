@@ -5,6 +5,12 @@ import tileUrl from "./assets/noteButton.png?no-inline";
 import { canAffordUpgrade, GameState, upgrades } from "./upgrades.ts";
 import { renderShop, updateShopDisplay } from "./shop.ts";
 import { startBackgroundMusic } from "./music.ts";
+import {
+  loadGameState,
+  loadUpgrades,
+  saveGameState,
+  saveUpgrades,
+} from "./save.ts";
 
 const app = document.querySelector<HTMLElement>("#app")!;
 
@@ -16,6 +22,48 @@ const game: GameState = {
   moneyPerClick: 1,
   moneyPerSecond: 0,
 };
+
+const savedGameState = loadGameState();
+if (
+  typeof savedGameState?.money === "number" && savedGameState.money >= 0 &&
+  Number.isFinite(savedGameState.money)
+) {
+  game.money = savedGameState.money;
+}
+
+if (
+  typeof savedGameState?.moneyPerClick === "number" &&
+  savedGameState.moneyPerClick >= 1 &&
+  Number.isFinite(savedGameState.moneyPerClick)
+) {
+  game.moneyPerClick = savedGameState.moneyPerClick;
+}
+
+if (
+  typeof savedGameState?.moneyPerSecond === "number" &&
+  savedGameState.moneyPerSecond >= 0 &&
+  Number.isFinite(savedGameState.moneyPerSecond)
+) {
+  game.moneyPerSecond = savedGameState.moneyPerSecond;
+}
+
+const savedUpgrades = loadUpgrades();
+if (Array.isArray(savedUpgrades)) {
+  savedUpgrades.forEach((savedUpgrade) => {
+    const upgrade = upgrades.find((u) => u.id === savedUpgrade.id);
+    if (
+      Number.isInteger(savedUpgrade.owned) && savedUpgrade.owned >= 0 && upgrade
+    ) {
+      upgrade.owned = savedUpgrade.owned;
+    }
+  });
+}
+
+function saveGame() {
+  saveGameState(game);
+  saveUpgrades(upgrades);
+}
+setInterval(saveGame, 5000); // Save every 5 seconds
 
 // UI elements
 const counterDisplay = document.createElement("div");
@@ -59,6 +107,7 @@ shopContainer.id = "shop";
 
 renderShop(shopContainer, game, () => {
   updateDisplay();
+  saveUpgrades(upgrades);
 });
 
 let lastTime = performance.now();
