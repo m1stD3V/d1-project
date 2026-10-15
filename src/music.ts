@@ -1,11 +1,11 @@
-import bgMusicPath from "./assets/atlasaudio-ambient-background-594878.mp3";
+import bgMusicPath from "./assets/bgm.mp3";
 
 // Create a new audio instance
 const backgroundMusic: HTMLAudioElement = new Audio(bgMusicPath);
 
 // Configure background music settings
 backgroundMusic.loop = true; //loop the background music
-backgroundMusic.volume = 0.5; // Range from 0.0 to 1.0
+backgroundMusic.volume = 0.3; // Range from 0.0 to 1.0
 
 // Function to start playback (must be triggered by a user interaction due to browser autoplay policies)
 export function startBackgroundMusic(): void {

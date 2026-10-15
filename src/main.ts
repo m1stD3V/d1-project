@@ -4,6 +4,7 @@
 import tileUrl from "./assets/noteButton.png?no-inline";
 import { canAffordUpgrade, GameState, upgrades } from "./upgrades.ts";
 import { renderShop } from "./shop.ts";
+import { startBackgroundMusic } from "./music.ts";
 
 const app = document.querySelector<HTMLElement>("#app")!;
 
@@ -40,7 +41,12 @@ tile.height = 96;
 button.appendChild(tile);
 
 const message = document.createElement("p");
+let musicStarted = false;
 button.addEventListener("click", () => {
+  if (!musicStarted) {
+    startBackgroundMusic();
+    musicStarted = true;
+  }
   game.money += game.moneyPerClick;
   updateDisplay();
   renderShop(shopContainer, game, updateDisplay);
