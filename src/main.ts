@@ -3,7 +3,7 @@
 // @deno-types="./asset-url.d.ts"
 import tileUrl from "./assets/noteButton.png?no-inline";
 import { canAffordUpgrade, GameState, upgrades } from "./upgrades.ts";
-import { renderShop } from "./shop.ts";
+import { renderShop, updateShopDisplay } from "./shop.ts";
 import { startBackgroundMusic } from "./music.ts";
 
 const app = document.querySelector<HTMLElement>("#app")!;
@@ -49,7 +49,7 @@ button.addEventListener("click", () => {
   }
   game.money += game.moneyPerClick;
   updateDisplay();
-  renderShop(shopContainer, game, updateDisplay);
+  updateShopDisplay(shopContainer, game);
 });
 
 const shopContainer = document.createElement("div");
@@ -79,7 +79,7 @@ function gameLoop(currentTime: number) {
       !purchaseButtons[index].disabled !== canAffordUpgrade(upgrade, game.money)
     );
     if (affordabilityChanged) {
-      renderShop(shopContainer, game, updateDisplay);
+      updateShopDisplay(shopContainer, game);
     }
   }
   requestAnimationFrame(gameLoop);
