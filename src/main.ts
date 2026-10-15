@@ -6,6 +6,7 @@ import { canAffordUpgrade, GameState, upgrades } from "./upgrades.ts";
 import { renderShop, updateShopDisplay } from "./shop.ts";
 import { startBackgroundMusic } from "./music.ts";
 import {
+  clearGameData,
   loadGameState,
   loadUpgrades,
   saveGameState,
@@ -63,7 +64,7 @@ function saveGame() {
   saveGameState(game);
   saveUpgrades(upgrades);
 }
-setInterval(saveGame, 5000); // Save every 5 seconds
+const saveInterval = setInterval(saveGame, 5000); // Save every 5 seconds
 
 // UI elements
 const counterDisplay = document.createElement("div");
@@ -80,6 +81,20 @@ updateDisplay();
 
 const button = document.createElement("button");
 button.type = "button";
+
+const ResetButton = document.createElement("button");
+ResetButton.textContent = "Reset Game";
+ResetButton.addEventListener("click", () => {
+  if (
+    globalThis.confirm(
+      "Are you sure you want to reset the game? This will erase all progress.",
+    )
+  ) {
+    clearInterval(saveInterval);
+    clearGameData();
+    location.reload();
+  }
+});
 
 const tile = document.createElement("img");
 tile.src = tileUrl;
@@ -107,7 +122,7 @@ shopContainer.id = "shop";
 
 renderShop(shopContainer, game, () => {
   updateDisplay();
-  saveUpgrades(upgrades);
+  saveGame();
 });
 
 let lastTime = performance.now();
@@ -135,5 +150,13 @@ function gameLoop(currentTime: number) {
 }
 requestAnimationFrame(gameLoop);
 
-app.append(heading, counterDisplay, clickRate, clickValue, button, message);
+app.append(
+  heading,
+  counterDisplay,
+  clickRate,
+  clickValue,
+  button,
+  message,
+  ResetButton,
+);
 app.appendChild(shopContainer); // AppendChild below button and informatics, cahnged because of format
