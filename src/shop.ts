@@ -15,18 +15,60 @@ export function renderShop(
   upgrades.forEach((upgrade) => {
     const card = document.createElement("div");
     card.className = "upgrade-card";
-    container.appendChild(card);
+
+    const infoDiv = document.createElement("div");
+    infoDiv.className = "upgrade-info";
+
+    const titleDiv = document.createElement("div");
+    titleDiv.className = "upgrade-title";
+
     const title = document.createElement("h3");
     title.textContent = upgrade.name;
-    card.appendChild(title);
+
+    const icon = document.createElement("p");
+    icon.className = "upgrade-icon";
+    icon.textContent = upgrade.icon;
+
+    titleDiv.append(icon);
+    titleDiv.append(title);
+
     const description = document.createElement("p");
+    description.className = "upgrade-desc";
     description.textContent = upgrade.description;
-    card.appendChild(description);
-    const cost = document.createElement("p");
-    cost.textContent = `Cost: $${getUpgradeCost(upgrade)}`;
-    card.appendChild(cost);
+
+    const effect = document.createElement("p");
+    effect.className = "upgrade-effect";
+    if (upgrade.effectType === "click") {
+      effect.className += " upgrade-effect-click";
+    } else if (upgrade.effectType === "passive") {
+      effect.className += " upgrade-effect-passive";
+    }
+    effect.textContent = `${
+      upgrade.effectType === "click" ? "🖱️" : "⏱️"
+    } +$${upgrade.effectValue} ${
+      upgrade.effectType === "click" ? "/click" : "/second"
+    }`;
+
+    const meta = document.createElement("div");
+    meta.className = "upgrade-meta";
+    const cost = document.createElement("span");
+    cost.className = "upgrade-cost";
+    cost.textContent = `$${getUpgradeCost(upgrade)}`;
+
+    const owned = document.createElement("span");
+    owned.className = "upgrade-owned";
+    owned.textContent = `Owned: ${upgrade.owned}`;
+
+    meta.append(cost, owned);
+    infoDiv.append(titleDiv, description, effect, meta);
+
     const button = document.createElement("button");
-    button.textContent = "Purchase";
+    if (canAffordUpgrade(upgrade, game.money)) {
+      button.textContent = "Buy";
+    } else {
+      button.textContent = "Locked";
+    }
+    button.className = "buy-btn";
     button.disabled = !canAffordUpgrade(upgrade, game.money);
     button.addEventListener("click", () => {
       if (purchaseUpgrade(upgrade, game)) {
@@ -34,12 +76,12 @@ export function renderShop(
         updateShopDisplay(container, game);
       }
     });
-    card.appendChild(button);
-    const owned = document.createElement("p");
-    owned.textContent = `Owned: ${upgrade.owned}`;
-    card.appendChild(owned);
+
+    card.append(infoDiv, button);
+    container.appendChild(card);
   });
 }
+
 export function updateShopDisplay(
   container: HTMLElement,
   game: GameState,
@@ -47,13 +89,25 @@ export function updateShopDisplay(
   const cards = container.querySelectorAll(".upgrade-card");
   cards.forEach((card, index) => {
     const upgrade = upgrades[index];
-    const button = card.querySelector("button") as HTMLButtonElement;
-    button.disabled = !canAffordUpgrade(upgrade, game.money);
-    const cost = card.querySelector("p:nth-of-type(2)") as HTMLParagraphElement;
-    cost.textContent = `Cost: $${getUpgradeCost(upgrade)}`;
-    const owned = card.querySelector(
-      "p:nth-of-type(3)",
-    ) as HTMLParagraphElement;
-    owned.textContent = `Owned: ${upgrade.owned}`;
+
+    const button = card.querySelector(".buy-btn") as HTMLButtonElement;
+    if (canAffordUpgrade(upgrade, game.money)) {
+      button.textContent = "Buy";
+    } else {
+      button.textContent = "Locked";
+    }
+    if (button) {
+      button.disabled = !canAffordUpgrade(upgrade, game.money);
+    }
+
+    const cost = card.querySelector(".upgrade-cost") as HTMLSpanElement;
+    if (cost) {
+      cost.textContent = `$${getUpgradeCost(upgrade)}`;
+    }
+
+    const owned = card.querySelector(".upgrade-owned") as HTMLSpanElement;
+    if (owned) {
+      owned.textContent = `Owned: ${upgrade.owned}`;
+    }
   });
 }

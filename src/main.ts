@@ -15,8 +15,15 @@ import {
 
 const app = document.querySelector<HTMLElement>("#app")!;
 
+const layout = document.createElement("div");
+layout.className = "game-layout";
+
+const leftColumn = document.createElement("div");
+leftColumn.className = "left-column";
+
 const heading = document.createElement("h1");
 heading.textContent = "The Studio";
+heading.className = "game-title";
 
 const game: GameState = {
   money: 0,
@@ -64,46 +71,42 @@ function saveGame() {
   saveGameState(game);
   saveUpgrades(upgrades);
 }
-const saveInterval = setInterval(saveGame, 5000); // Save every 5 seconds
+const saveInterval = setInterval(saveGame, 5000);
 
-// UI elements
+const statsPanel = document.createElement("div");
+statsPanel.className = "stats-panel";
+
 const counterDisplay = document.createElement("div");
+counterDisplay.className = "money-counter";
 const clickRate = document.createElement("div");
+clickRate.className = "stat-item";
 const clickValue = document.createElement("div");
+clickValue.className = "stat-item";
 
-/** Updates the displayed money balance and earning rates from the game state. */
+statsPanel.append(counterDisplay, clickRate, clickValue);
+
 function updateDisplay() {
-  counterDisplay.textContent = `Count: ${Math.floor(game.money)}`;
+  counterDisplay.textContent = `$${Math.floor(game.money)}`;
   clickRate.textContent = `${game.moneyPerSecond} /sec`;
-  clickValue.textContent = `${game.moneyPerClick} /click`;
+  clickValue.textContent = `${game.moneyPerClick} click`;
 }
 updateDisplay();
 
+const clickerContainer = document.createElement("div");
+clickerContainer.className = "clicker-container";
+
 const button = document.createElement("button");
 button.type = "button";
-
-const ResetButton = document.createElement("button");
-ResetButton.textContent = "Reset Game";
-ResetButton.addEventListener("click", () => {
-  if (
-    globalThis.confirm(
-      "Are you sure you want to reset the game? This will erase all progress.",
-    )
-  ) {
-    clearInterval(saveInterval);
-    clearGameData();
-    location.reload();
-  }
-});
+button.className = "music-button";
 
 const tile = document.createElement("img");
 tile.src = tileUrl;
-tile.alt = "A black musical Note button";
+tile.alt = "A black musical Note Button";
 tile.width = 96;
 tile.height = 96;
 button.appendChild(tile);
+clickerContainer.appendChild(button);
 
-const message = document.createElement("p");
 let musicStarted = false;
 button.addEventListener("click", () => {
   if (!musicStarted) {
@@ -115,10 +118,41 @@ button.addEventListener("click", () => {
   updateShopDisplay(shopContainer, game);
 });
 
+const controlsPanel = document.createElement("div");
+controlsPanel.className = "controls-panel";
+
+const ResetButton = document.createElement("button");
+ResetButton.textContent = "Reset Game";
+ResetButton.className = "reset-btn";
+ResetButton.addEventListener("click", () => {
+  if (
+    globalThis.confirm(
+      "Are you sure you want to reset the game? This will erase all progress.",
+    )
+  ) {
+    clearInterval(saveInterval);
+    clearGameData();
+    location.reload();
+  }
+});
+controlsPanel.appendChild(ResetButton);
+
+leftColumn.append(heading, statsPanel, clickerContainer, controlsPanel);
+
+const shopWrapper = document.createElement("div");
+shopWrapper.className = "shop-wrapper";
+
+const shopHeading = document.createElement("h2");
+shopHeading.textContent = "Equipment Shop";
+
 const shopContainer = document.createElement("div");
-shopContainer.style.display = "flex";
-shopContainer.style.justifyContent = "flex-end";
 shopContainer.id = "shop";
+shopContainer.className = "shop-grid";
+
+shopWrapper.append(shopHeading, shopContainer);
+
+layout.append(leftColumn, shopWrapper);
+app.appendChild(layout);
 
 renderShop(shopContainer, game, () => {
   updateDisplay();
@@ -126,10 +160,7 @@ renderShop(shopContainer, game, () => {
 });
 
 let lastTime = performance.now();
-/**
- * Accrues passive income, refreshes the UI, and schedules the next frame.
- * @param currentTime - Animation frame timestamp in milliseconds.
- */
+
 function gameLoop(currentTime: number) {
   const delta = (currentTime - lastTime) / 1000;
   lastTime = currentTime;
@@ -149,14 +180,3 @@ function gameLoop(currentTime: number) {
   requestAnimationFrame(gameLoop);
 }
 requestAnimationFrame(gameLoop);
-
-app.append(
-  heading,
-  counterDisplay,
-  clickRate,
-  clickValue,
-  button,
-  message,
-  ResetButton,
-);
-app.appendChild(shopContainer); // AppendChild below button and informatics, cahnged because of format
