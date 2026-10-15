@@ -1,7 +1,34 @@
-# D1 starter
+# D1 Project
 
-A minimal TypeScript/Vite browser project with Deno checks and GitHub Pages deployment.
+>A music studio themed clicker game in which you make music to earn money in order to buy your equipment
 
-## Credits
+### 1. Usable App Link
+* **Our Games Website:** [https://m1std3v.github.io/d1-project/](https://m1std3v.github.io/d1-project/)
 
-Tooling adapted from the [CMPM 121 Fall 2026 S01 starter](https://github.com/ucsc-cmpm-121-f26/s01-starter/tree/8974888efb6537be82e8eb069db139ea885039da), which has no explicit repository license. No new license is assigned to that material. The D1 scaffold and original SVG were authored with OpenAI GPT-6 Astra assistance. Dependencies retain their respective licenses.
+### 2. Interaction Explanation
+* **Gameplay Loop:** When you first open the game you are greeted by your studio. Click the music note icon to start making music and earning money! Continue progressing by purchasing upgrades, or studio equipment, to grow your earning potential!
+
+### 3. Run & Build Instructions
+
+#### Prerequisites
+* [Deno](https://deno.com/) installed on your system (v1.40 or higher recommended).
+
+#### Local Development
+```bash
+# 1. Clone the repository
+git clone [https://github.com/m1stD3V/d1-project.git](https://github.com/m1stD3V/d1-project.git)
+cd d1-project
+
+#2. Navigate to the directory
+Navigate to the directory in which you cloned the repository
+
+#3. Use the deno CI check 
+run "deno task CI" to check everything is running smoothly according to the deno configuration paramters
+
+#4. Local Gameplay
+When wanting to run locally, just run "deno run dev" to open up a local instance
+
+#5. HAVE FUN!
+Make sure to have fun, and make your music carrer thrive!
+
+```
