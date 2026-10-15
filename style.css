@@ -1,0 +1,169 @@
+body {
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+#app {
+  width: 100%;
+  max-width: 900px;
+  padding: 2rem;
+}
+
+.game-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  background: #1a1c23;
+  padding: 2rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+  border: 1px solid #2d3139;
+}
+
+.game-title {
+  margin-top: 0;
+  font-size: 2rem;
+  color: #8b5cf6;
+}
+
+.stats-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background: #242731;
+  padding: 1rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+
+.money-counter {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #10b981;
+}
+
+.stat-item {
+  font-size: 0.95rem;
+  color: #9ca3af;
+}
+
+.clicker-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+}
+
+.music-button {
+  background: #8b5cf6;
+  border: none;
+  border-radius: 50%;
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(139, 92, 246, 0.4);
+  transition: transform 0.1s ease, background 0.2s ease;
+}
+
+.music-button:hover {
+  background: #7c3aed;
+  transform: scale(1.05);
+}
+
+.music-button:active {
+  transform: scale(0.95);
+}
+
+.shop-wrapper h2 {
+  margin-top: 0;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #2d3139;
+  padding-bottom: 0.5rem;
+}
+
+.shop-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.upgrade-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #242731;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #2d3139;
+}
+
+.upgrade-info h3 {
+  margin: 0 0 0.25rem 0;
+  font-size: 1rem;
+}
+
+.upgrade-description {
+  margin: 0 0 0.5rem 0;
+  font-size: 0.8rem;
+  color: #9ca3af;
+}
+
+.upgrade-meta {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.85rem;
+}
+
+.upgrade-cost {
+  color: #fbbf24;
+  font-weight: bold;
+}
+
+.upgrade-owned {
+  color: #9ca3af;
+}
+
+.but-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.buy-btn:hover:not(:disabled) {
+  background: #059669;
+}
+
+.buy-btn:disabled {
+  background: #374151;
+  color: #6b7280;
+  cursor: not-allowed;
+}
+
+.reset-btn {
+  background: transparent;
+  color: #ef4444;
+  border: 1px solid #ef4444;
+  padding: 0.4rem 0.8rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s, color 0.2s;
+}
+
+.reset-btn:hover {
+  background: #ef4444;
+  color: white;
+}

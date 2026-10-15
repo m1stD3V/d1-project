@@ -75,7 +75,7 @@ export function updateShopDisplay(
 
     const owned = card.querySelector(".upgrade-owned") as HTMLSpanElement;
     if (owned) {
-      owned.textContent = `Owned: $(upgrade.owned`;
+      owned.textContent = `Owned: ${upgrade.owned}`;
     }
   });
 }
