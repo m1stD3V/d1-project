@@ -1,3 +1,4 @@
+import "./shop.css";
 import {
   canAffordUpgrade,
   getUpgradeCost,
@@ -16,17 +17,51 @@ export function renderShop(
     const card = document.createElement("div");
     card.className = "upgrade-card";
     container.appendChild(card);
-    const title = document.createElement("h3");
+
+    const titleRow = document.createElement("div");
+    titleRow.className = "upgrade-title-row";
+
+    const icon = document.createElement("p");
+    icon.className = "upgrade-icon";
+    icon.textContent = upgrade.icon;
+    titleRow.appendChild(icon);
+
+    const title = document.createElement("h1");
     title.textContent = upgrade.name;
-    card.appendChild(title);
+    titleRow.appendChild(title);
+
+    card.appendChild(titleRow);
+
     const description = document.createElement("p");
+    description.className = "upgrade-description";
     description.textContent = upgrade.description;
     card.appendChild(description);
+
+    const effect = document.createElement("p");
+    effect.className = "upgrade-effect";
+    if (upgrade.effectType === "click") {
+      effect.className += " upgrade-effect-click";
+    } else if (upgrade.effectType === "passive") {
+      effect.className += " upgrade-effect-passive";
+    }
+    effect.textContent = `${
+      upgrade.effectType === "click" ? "🖱️" : "⏱️"
+    } +$${upgrade.effectValue} ${
+      upgrade.effectType === "click" ? "/click" : "/second"
+    }`;
+    card.appendChild(effect);
+
     const cost = document.createElement("p");
-    cost.textContent = `Cost: $${getUpgradeCost(upgrade)}`;
+    cost.className = "upgrade-cost";
+    cost.textContent = `$${getUpgradeCost(upgrade)}`;
     card.appendChild(cost);
     const button = document.createElement("button");
-    button.textContent = "Purchase";
+
+    if (canAffordUpgrade(upgrade, game.money)) {
+      button.textContent = "Purchase";
+    } else {
+      button.textContent = "Unaffordable";
+    }
     button.disabled = !canAffordUpgrade(upgrade, game.money);
     button.addEventListener("click", () => {
       if (purchaseUpgrade(upgrade, game)) {
@@ -35,7 +70,9 @@ export function renderShop(
       }
     });
     card.appendChild(button);
+
     const owned = document.createElement("p");
+    owned.className = "upgrade-owned";
     owned.textContent = `Owned: ${upgrade.owned}`;
     card.appendChild(owned);
   });
@@ -48,12 +85,31 @@ export function updateShopDisplay(
   cards.forEach((card, index) => {
     const upgrade = upgrades[index];
     const button = card.querySelector("button") as HTMLButtonElement;
+    if (canAffordUpgrade(upgrade, game.money)) {
+      button.textContent = "Purchase";
+    } else {
+      button.textContent = "Unaffordable";
+    }
     button.disabled = !canAffordUpgrade(upgrade, game.money);
-    const cost = card.querySelector("p:nth-of-type(2)") as HTMLParagraphElement;
-    cost.textContent = `Cost: $${getUpgradeCost(upgrade)}`;
+
+    const cost = card.querySelector(".upgrade-cost") as HTMLParagraphElement;
+    cost.textContent = `$${getUpgradeCost(upgrade)}`;
+
+    const effect = card.querySelector(
+      ".upgrade-effect",
+    ) as HTMLParagraphElement;
+    effect.textContent = `${
+      upgrade.effectType === "click" ? "🖱️" : "⏱️"
+    } +$${upgrade.effectValue} ${
+      upgrade.effectType === "click" ? "/click" : "/second"
+    }`;
+
     const owned = card.querySelector(
-      "p:nth-of-type(3)",
+      ".upgrade-owned",
     ) as HTMLParagraphElement;
     owned.textContent = `Owned: ${upgrade.owned}`;
+
+    const icon = card.querySelector(".upgrade-icon") as HTMLParagraphElement;
+    icon.textContent = upgrade.icon;
   });
 }

@@ -1,0 +1,120 @@
+.upgrade-card {
+  background-color: #1A1E2B;
+  color: #F5F6FF;
+  padding: 20px;
+  border-radius: 12px;
+  border: 1px solid #34394D;
+  margin: 10px;
+  font-family: "Arial", sans-serif;
+  font-size: 13px;
+  text-align: left;
+}
+.upgrade-card:hover {
+  transform: scale(1.02);
+  transition: transform 0.2s ease;
+  border-color: #8868ec;
+}
+.upgrade-card button {
+  background-color: #8868ec;
+  color: white;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background-color 0.2s ease;
+}
+
+.upgrade-card button:disabled {
+  background-color: #55555523;
+  cursor: not-allowed;
+  border: 1px solid #e6e0e023;
+}
+
+.upgrade-card button:hover:not(:disabled) {
+  background-color: #3617a7;
+}
+
+#shop {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.shop-section {
+  background-color: #151927;
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid #30364A;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.shop-section h1 {
+  font-size: 30px;
+  margin: 0 0 20px 0;
+  color: #F5F6FF;
+  font-family: "Arial", sans-serif;
+  font-weight: bold;
+}
+
+@media (max-width: 700px) {
+  #shop {
+    grid-template-columns: 1fr;
+  }
+}
+
+.upgrade-icon {
+  display: inline-flex;
+  font-size: 28px;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  margin: 0;
+  flex-shrink: 0;
+}
+
+.upgrade-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.upgrade-title-row h1 {
+  margin: 0;
+  line-height: 1.2;
+}
+
+.upgrade-description {
+  font-weight: bold;
+  margin: 10px 0;
+  line-height: 1.4;
+  color: #6a0de4;
+}
+
+.upgrade-cost {
+  font-weight: bold;
+  font-size: 19px;
+  margin-bottom: 10px;
+  color: #004faa;
+}
+
+.upgrade-owned {
+  font-size: 14px;
+  color: #888;
+  margin-bottom: 10px;
+  font-weight: bold;
+}
+
+.upgrade-effect-click {
+  font-weight: bold;
+  font-size: 14px;
+  color: #b09aff;
+}
+
+.upgrade-effect-passive {
+  font-weight: bold;
+  font-size: 14px;
+  color: #4FD1C5;
+}

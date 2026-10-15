@@ -13,6 +13,7 @@ export type Upgrade = {
   effectValue: number;
   owned: number;
   effectType: "click" | "passive";
+  icon: string;
 };
 
 export const upgrades: Upgrade[] = [
@@ -25,6 +26,7 @@ export const upgrades: Upgrade[] = [
     effectValue: 1,
     owned: 0,
     effectType: "click",
+    icon: "🎹",
   },
   {
     id: "synthesizer",
@@ -35,6 +37,7 @@ export const upgrades: Upgrade[] = [
     effectValue: 5,
     owned: 0,
     effectType: "click",
+    icon: "🎛️",
   },
   {
     id: "studio-monitor",
@@ -45,6 +48,7 @@ export const upgrades: Upgrade[] = [
     effectValue: 10,
     owned: 0,
     effectType: "passive",
+    icon: "🔊",
   },
   {
     id: "audio-interface",
@@ -55,7 +59,9 @@ export const upgrades: Upgrade[] = [
     effectValue: 20,
     owned: 0,
     effectType: "passive",
+    icon: "🎚️",
   },
+
   {
     id: "microphone",
     name: "Microphone",
@@ -65,6 +71,7 @@ export const upgrades: Upgrade[] = [
     effectValue: 30,
     owned: 0,
     effectType: "click",
+    icon: "🎤",
   },
 ];
 

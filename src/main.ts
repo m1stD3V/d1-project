@@ -115,9 +115,12 @@ button.addEventListener("click", () => {
   updateShopDisplay(shopContainer, game);
 });
 
+const shopSection = document.createElement("div");
+shopSection.className = "shop-section";
+const shopHeading = document.createElement("h1");
+shopHeading.textContent = "🎧 Studio Equipments";
+shopSection.appendChild(shopHeading);
 const shopContainer = document.createElement("div");
-shopContainer.style.display = "flex";
-shopContainer.style.justifyContent = "flex-end";
 shopContainer.id = "shop";
 
 renderShop(shopContainer, game, () => {
@@ -159,4 +162,5 @@ app.append(
   message,
   ResetButton,
 );
-app.appendChild(shopContainer); // AppendChild below button and informatics, cahnged because of format
+app.appendChild(shopSection); // AppendChild below button and informatics, cahnged because of format
+shopSection.appendChild(shopContainer);
